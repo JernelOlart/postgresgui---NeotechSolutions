@@ -47,6 +47,22 @@ struct PostgresGUIApp: App {
 
             CommandGroup(after: .appInfo) {
                 Button(action: {
+                    if let url = URL(string: "https://neotechsolutions.mx/") {
+                        NSWorkspace.shared.open(url)
+                    }
+                }) {
+                    Text("Neotech Solutions")
+                }
+
+                Button(action: {
+                    if let url = URL(string: "https://github.com/JernelOlart") {
+                        NSWorkspace.shared.open(url)
+                    }
+                }) {
+                    Text("Git: JernelOlart")
+                }
+
+                Button(action: {
                     if let url = URL(string: "https://postgresgui.com/support") {
                         NSWorkspace.shared.open(url)
                     }

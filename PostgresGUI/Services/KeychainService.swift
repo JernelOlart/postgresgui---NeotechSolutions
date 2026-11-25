@@ -128,12 +128,15 @@ enum KeychainService {
     }
 
     private static func query(account: String) throws -> [String: Any] {
-        [
+        var queryDict: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: serviceName,
-            kSecAttrAccount as String: account,
-            kSecAttrAccessGroup as String: try accessGroup()
+            kSecAttrAccount as String: account
         ]
+        if let group = try? accessGroup() {
+            queryDict[kSecAttrAccessGroup as String] = group
+        }
+        return queryDict
     }
 
     private static func accessGroup() throws -> String {

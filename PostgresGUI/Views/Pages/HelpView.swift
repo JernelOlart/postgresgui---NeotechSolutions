@@ -15,19 +15,52 @@ struct HelpView: View {
                 VStack(alignment: .leading, spacing: Constants.Spacing.large) {
                     // Support section
                     ShortcutSection(title: "Support") {
-                        Button(action: {
-                            if let url = URL(string: "https://postgresgui.com/support") {
-                                NSWorkspace.shared.open(url)
+                        VStack(alignment: .leading, spacing: 10) {
+                            Button(action: {
+                                if let url = URL(string: "https://neotechsolutions.mx/") {
+                                    NSWorkspace.shared.open(url)
+                                }
+                            }) {
+                                HStack {
+                                    Image("NeoLogo")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: 18)
+                                    Spacer()
+                                    Image(systemName: "arrow.up.right")
+                                        .foregroundStyle(.secondary)
+                                }
                             }
-                        }) {
-                            HStack {
-                                Text("Help and Support")
-                                Spacer()
-                                Image(systemName: "arrow.up.right")
-                                    .foregroundStyle(.secondary)
+                            .buttonStyle(.plain)
+
+                            Button(action: {
+                                if let url = URL(string: "https://github.com/JernelOlart") {
+                                    NSWorkspace.shared.open(url)
+                                }
+                            }) {
+                                HStack {
+                                    Label("Git: JernelOlart", systemImage: "link")
+                                    Spacer()
+                                    Image(systemName: "arrow.up.right")
+                                        .foregroundStyle(.secondary)
+                                }
                             }
+                            .buttonStyle(.plain)
+
+                            Button(action: {
+                                if let url = URL(string: "https://postgresgui.com/support") {
+                                    NSWorkspace.shared.open(url)
+                                }
+                            }) {
+                                HStack {
+                                    Text("Help and Support")
+                                    Spacer()
+                                    Image(systemName: "arrow.up.right")
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
 
                     // Keyboard shortcuts section

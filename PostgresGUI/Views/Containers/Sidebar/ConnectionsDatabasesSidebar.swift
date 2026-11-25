@@ -159,6 +159,42 @@ struct ConnectionsDatabasesSidebar: View {
                 )
             }
             makeTablesList()
+
+            Divider()
+
+            VStack(spacing: 6) {
+                Button(action: {
+                    if let url = URL(string: "https://neotechsolutions.mx/") {
+                        NSWorkspace.shared.open(url)
+                    }
+                }) {
+                    Image("NeoLogo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 20)
+                }
+                .buttonStyle(.plain)
+                .help("Neotech Solutions - https://neotechsolutions.mx/")
+
+                Button(action: {
+                    if let url = URL(string: "https://github.com/JernelOlart") {
+                        NSWorkspace.shared.open(url)
+                    }
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "link")
+                            .font(.system(size: 10, weight: .medium))
+                        Text("Git: JernelOlart")
+                            .font(.system(size: 10, weight: .medium))
+                    }
+                    .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("GitHub: JernelOlart")
+            }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 10)
+            .frame(maxWidth: .infinity)
         }
     }
 

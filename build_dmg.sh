@@ -3,16 +3,24 @@
 # Stop on first error
 set -e
 
+# Set Xcode developer dir if needed
+if [ -d "/Applications/Xcode.app/Contents/Developer" ]; then
+    export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
+fi
+
 echo "🚀 Starting PostgresGUI build process..."
 
-# Clean and build the project
+# Code sign settings: ad-hoc signing for local distribution and reliability
+SIGN_FLAG="CODE_SIGN_IDENTITY=- CODE_SIGNING_REQUIRED=NO CODE_SIGN_STYLE=Manual"
+
+# Build the project
 # The generated files will be output to the local "./build" folder
 xcodebuild -project PostgresGUI.xcodeproj \
            -scheme PostgresGUI \
            -configuration Release \
            -derivedDataPath build/ \
-           -allowProvisioningUpdates \
-           clean build
+           $SIGN_FLAG \
+           build
 
 # Define paths
 APP_PATH="build/Build/Products/Release/PostgresGUI.app"
@@ -51,7 +59,13 @@ if command -v create-dmg &> /dev/null; then
 else
     echo "⚠️ 'create-dmg' not found. (Recommended: brew install create-dmg)"
     echo "⚙️ Using native macOS 'hdiutil' as fallback..."
-    hdiutil create -volname "PostgresGUI" -srcfolder "$APP_PATH" -ov -format UDZO "$DMG_NAME"
+    DMG_TMP="build/dmg_tmp"
+    rm -rf "$DMG_TMP"
+    mkdir -p "$DMG_TMP"
+    cp -R "$APP_PATH" "$DMG_TMP/"
+    ln -s /Applications "$DMG_TMP/Applications"
+    hdiutil create -volname "PostgresGUI" -srcfolder "$DMG_TMP" -ov -format UDZO "$DMG_NAME"
+    rm -rf "$DMG_TMP"
 fi
 
 echo "🎉 Done! The file $DMG_NAME was successfully created."
